@@ -1,0 +1,11 @@
+•	Required
+  o	Profile pages for each user
+  o	Settings (Accessibility, Notification, General, etc.)
+  o	A search and filter engine to sort through recipes and give the user relevant results.
+  o	Ability to post reviews, rate, and reply to recipes
+  o	Ability to upload pictures of the finished product
+  o	Ability to add and delete items from your personal inventory and the ability to generate recipes based off of what is in your inventory
+•	Optional
+  o	Follow food or cuisine to see when new recipes for those types get released
+  o	Ability to follow other users
+  o	Direct messaging system to ask question
