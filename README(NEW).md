@@ -2,7 +2,7 @@
 # Recipe App - README
 
 ## Overview
-Uses provided ingredient information (photo or text box) to search and display images and recipes of food items that you can make with the provided ingredients. The recipes are gathered from a database while also being provided by other users.
+Uses provided ingredient information (photo or text box) to search and display images and recipes of food items that you can make with the provided ingredients. The recipes & ingredients are gathered from a database while also being provided by other users.
 
 ### App Evaluation
 - **Category**: Social Networking / Culinary
@@ -19,7 +19,6 @@ Uses provided ingredient information (photo or text box) to search and display i
 
 - **Required**:
     - Profile pages for each user
-    - Settings (Accessibility, Notifications, General)
     - A search and filter engine to sort recipes and return relevant results
     - Ability to post reviews, rate, and reply to recipes
     - Ability to upload pictures of finished dishes
@@ -29,24 +28,53 @@ Uses provided ingredient information (photo or text box) to search and display i
     - Follow cuisines to see when new recipes are added
     - Follow other users
     - Direct messaging system for recipe inquiries
-
+    - Settings (Accessibility, Notifications, General)
 ### 2. Screen Archetypes
 - **Login or Register**: User logs in or creates an account.
 - **MyFridge**: Manage the content in your virtual fridge, search for recipes based on those ingredients.
 - **Profile**: Upload photos, manage posts, favorites, and view your activity log.
 - **Food Screen**: View recipe details, star ratings, and comments.
 - **Settings**: Change app language, notification settings, and more.
+- **MyKitchen**: Provides a curated feed of recipies and other content made by followed creators
+- **Recipie Details**: Provides details on the currently viewed recipie.
 
 ### 3. Navigation
 **Tab Navigation**:
 - MyFridge
 - Profile
 - Settings
+- MyKitchen
 
 ---
 
 ## Wireframes
-(*Insert Wireframe images or links here*)
+[View Wireframe](./MyFridge Site Wireframe.pdf)
+
+## High Fidelity Sketches
+*Link*: https://www.figma.com/design/5KSfOwSB11kzsFiH8ihBEx/Home-Page?node-id=0-1&node-type=canvas&t=KKp7lbhv5LvbkO8u-0
+
+Images:
+
+### Home
+(image)
+
+### Profile
+(image)
+
+### Settings
+(image)
+
+### MyFridge
+(image)
+
+### Recipie Page
+(image)
+
+### Search Results
+(image)
+
+### Comments on Recipies
+(image)
 
 ---
 
@@ -57,7 +85,7 @@ Uses provided ingredient information (photo or text box) to search and display i
 | Property      | Type           | Description                                   |
 | ------------- | -------------- | --------------------------------------------- |
 | `objectId`    | String         | Unique ID for the post                        |
-| `author`      | Pointer to User| User who created the post                     |
+| `author`      | User Reference | User who created the post                     |
 | `image`       | File           | Image of the recipe                           |
 | `caption`     | String         | Caption for the post                          |
 | `commentsCount`| Number        | Number of comments                           |
@@ -73,8 +101,11 @@ Uses provided ingredient information (photo or text box) to search and display i
 | `username`        | String   | Display name                                   |
 | `email`           | String   | Email address                                  |
 | `password`        | String   | Password for account login                     |
-| `favorite_recipes`| Array    | Liked recipes                                  |
-| `uploaded_recipes`| Array    | Recipes uploaded by the user                   |
+| `favorite_recipes`| Array of Recipie References   | Liked recipes                                  |
+| `uploaded_recipes`| Array of Recipie References   | Recipes uploaded by the user                   |
+| `personalIngredients`| Array of Ingredients| Users Personal Myfridge data      |
+| `followingList`| ArrayList of user_Id References| Users following list         |
+| `followerNum`| Long Int        | Number of followers                           |
 
 ### Recipe
 
@@ -82,11 +113,12 @@ Uses provided ingredient information (photo or text box) to search and display i
 | ------------- | -------- | ---------------------------------------------- |
 | `recipe_id`   | String   | Unique ID                                      |
 | `name`        | String   | Name of the recipe                             |
-| `ingredients` | Array    | List of ingredients                            |
+| `ingredients` | Array of Ingredient References   | List of ingredients                            |
 | `instructions`| String   | How to make the dish                           |
 | `image_url`   | String   | URL for the image of the dish                  |
 | `user_id`     | String   | Reference to the user who posted the recipe    |
 | `ratings`     | Array    | Star rating for the dish                       |
+| `ingredientCompletion`|Float | Shows the completion rate of the user's ingredients |
 
 ### Ingredients
 
@@ -95,6 +127,7 @@ Uses provided ingredient information (photo or text box) to search and display i
 | `ingredient_id`| String  | Unique ID                                      |
 | `name`        | String   | Name of the ingredient                         |
 | `quantity`    | Number   | Quantity of the ingredient in possession       |
+| `nutritionDetails`| String | Provides nutritional details and information about the ingredient if available|
 
 ### Networking
 
@@ -125,3 +158,5 @@ Uses provided ingredient information (photo or text box) to search and display i
 - **Profile Screen**:
     - (Read/GET) Fetch logged-in user data
     - (Update/PUT) Update user profile image
+ 
+*Please note that ChatGPT was used to assist in formatting this document, Thank You.*
