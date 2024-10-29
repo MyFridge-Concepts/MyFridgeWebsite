@@ -48,7 +48,7 @@ Uses provided ingredient information (photo or text box) to search and display i
 ---
 
 ## Wireframes
-[View Wireframe](./MyFridge Site Wireframe.pdf)
+[View Wireframe](MyFridge Site Wireframe.pdf)
 
 ## High Fidelity Sketches
 *Link*: https://www.figma.com/design/5KSfOwSB11kzsFiH8ihBEx/Home-Page?node-id=0-1&node-type=canvas&t=KKp7lbhv5LvbkO8u-0
