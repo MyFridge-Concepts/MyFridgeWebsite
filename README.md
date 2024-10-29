@@ -48,7 +48,7 @@ Uses provided ingredient information (photo or text box) to search and display i
 ---
 
 ## Wireframes
-[View Wireframe](MyFridge Site Wireframe.pdf)
+[View Wireframe](MyFridgeSiteWireframe.pdf)
 
 ## High Fidelity Sketches
 *Link*: https://www.figma.com/design/5KSfOwSB11kzsFiH8ihBEx/Home-Page?node-id=0-1&node-type=canvas&t=KKp7lbhv5LvbkO8u-0
@@ -56,25 +56,25 @@ Uses provided ingredient information (photo or text box) to search and display i
 Images:
 
 ### Home
-(image)
+(images/HomePage.png)
 
 ### Profile
-(image)
+(images/MyProfile.png)
 
 ### Settings
-(image)
+(images/Settings.png)
 
 ### MyFridge
-(image)
+(images/MyFridge.png)
 
 ### Recipie Page
-(image)
+(images/RecipiePage.png)
 
 ### Search Results
-(image)
+(images/RecipieListPage.png)
 
 ### Comments on Recipies
-(image)
+(images/Recipie_Comments.png)
 
 ---
 
