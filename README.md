@@ -1,5 +1,5 @@
 
-# MyFridge Website Application - README
+# MyKitchen Website Application - README
 
 ## Overview
 Uses provided ingredient information (photo or text box) to search and display images and recipes of food items that you can make with the provided ingredients. The recipes & ingredients are gathered from a database while also being provided by other users.
