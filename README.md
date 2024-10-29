@@ -56,25 +56,25 @@ Uses provided ingredient information (photo or text box) to search and display i
 Images:
 
 ### Home
-(images/HomePage.png)
+![Page Preview](images/HomePage.png)
 
 ### Profile
-(images/MyProfile.png)
+![Page Preview](images/MyProfile.png)
 
 ### Settings
-(images/Settings.png)
+![Page Preview](images/Settings.png)
 
 ### MyFridge
-(images/MyFridge.png)
+![Page Preview](images/MyFridge.png)
 
 ### Recipie Page
-(images/RecipiePage.png)
+![Page Preview](images/RecipiePage.png)
 
 ### Search Results
-(images/RecipieListPage.png)
+![Page Preview](images/RecipieListPage.png)
 
 ### Comments on Recipies
-(images/Recipie_Comments.png)
+![Page Preview](images/Recipie_Comments.png)
 
 ---
 
