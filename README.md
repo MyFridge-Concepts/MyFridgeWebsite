@@ -76,13 +76,6 @@ Images:
 ### Comments on Recipes
 ![Page Preview](images/Recipie_Comments.png)
 
-### Additional Previews
-![GIF Preview 1](images/NpnLjVm-Imgur.gif)
-
-![GIF Preview 2](images/Animation.gif)
-
-In this sprint, we set up Firebase and structured most of our models and utilities, laying the groundwork for the app’s database interactions. Additionally, we began developing key controllers, which will manage user and recipe data flow throughout the application. This progress brings us closer to a fully functional backend that will support essential app functionalities like user profile management, ingredient tracking, and recipe retrieval.
-
 ---
 
 ## Schema
@@ -176,3 +169,10 @@ In this sprint, we set up Firebase and structured most of our models and utiliti
 - **Sprint planned for next week** (Issues created, assigned & added to project board) (3pts)
 - **Completed user stories checked-off in README** (2pts)
 - **New GIFs created to show build progress and added to README along with short paragraph on what was completed** (3pts)
+  
+### Additional Previews
+![Firebase](images/firebaseMilestone4.gif)
+
+![IntelliJ](images/Animation.gif)
+
+In this sprint, we set up Firebase and structured most of our models and utilities, laying the groundwork for the app’s database interactions. Additionally, we began developing key controllers, which will manage user and recipe data flow throughout the application. This progress brings us closer to a fully functional backend that will support essential app functionalities like user profile management, ingredient tracking, and recipe retrieval.
