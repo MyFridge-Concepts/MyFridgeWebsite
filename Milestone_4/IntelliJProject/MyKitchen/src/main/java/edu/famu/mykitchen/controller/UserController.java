@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 //http://localhost:8080/api/user
 
@@ -210,17 +211,31 @@ public class UserController {
             }
             users.setUploadedRecipes(uploadedRecipesRef);
 
-            ArrayList<Map<String, Ingredients>> Ilist = (ArrayList<Map<String, Ingredients>>) user.get("myFridge");
+
+            users.setMyFridge(null);
+
+//            ArrayList<Map<String, Ingredients>> Ilist = (ArrayList<Map<String, Ingredients>>) user.get("myFridge");
+//
+//            ArrayList<Map<String, DocumentReference>> myFridgeRef = new ArrayList<>();
+//            if (!Ilist.isEmpty()) {
+//                for (Map<String, Ingredients> myFridge : Ilist) {
+//                    Firestore db = FirestoreClient.getFirestore();
+//                    myFridgeRef.add(myFridge.entrySet().stream().collect(Map.Entry::getKey, e -> db.collection("myFridge").document(e.getValue())));
+//                }
+//            }
+//            users.setMyFridge(myFridgeRef);
+
+            /*ArrayList<Map<String, Ingredients>> Ilist = (ArrayList<Map<String, Ingredients>>) user.get("myFridge");
 
             ArrayList<Map<String, DocumentReference>> myFridgeRef = new ArrayList<>();
             if (!Ilist.isEmpty()) {
                 for (Map<String, Ingredients> myFridge : Ilist) {
                     Firestore db = FirestoreClient.getFirestore();
                     myFridgeRef.add(myFridge.entrySet().stream()
-                            .collect(Map.Entry::getKey, e -> db.collection("myFridge").document(e.getValue())));
+                            .collect(Collectors.toMap(Map.Entry::getKey, e -> db.collection("myFridge").document(e.getValue().toString()))));
                 }
             }
-            users.setMyFridge(myFridgeRef);
+            users.setMyFridge(myFridgeRef);*/
 
 
 
