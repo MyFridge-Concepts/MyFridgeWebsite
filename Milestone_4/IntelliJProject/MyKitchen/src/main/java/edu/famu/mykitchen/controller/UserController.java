@@ -19,8 +19,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 //http://localhost:8080/api/user
-@RequestMapping("/api/user")
+
 @RestController
+@RequestMapping("/api/user")
 public class UserController {
     private final UserService service;
 
@@ -112,6 +113,8 @@ public class UserController {
     public ResponseEntity<ApiResponse<ArrayList<User>>> getAllUsers() {
         try {
             ArrayList<User> users = (ArrayList<User>) service.getAllUsers();
+            //ArrayList<User> users = new ArrayList<>();
+
             return ResponseEntity.status(200).body(new ApiResponse<>(true, "Users retrieved successfully", users, null));
         } catch (ExecutionException e) {
             return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));

@@ -20,4 +20,11 @@ public abstract class APosts {
     private long likesNum, commentsNum;
     private boolean visibility;
 
+    public boolean isVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(boolean visibility) {
+        this.visibility = visibility;
+    }
 }

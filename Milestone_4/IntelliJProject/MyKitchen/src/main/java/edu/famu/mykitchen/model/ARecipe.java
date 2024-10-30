@@ -35,8 +35,18 @@ public abstract class ARecipe {
         return publishDate;
     }
 
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate(boolean aPrivate) {
+        isPrivate = aPrivate;
+    }
+
     public void setPublishDate(String publishDate) throws ParseException {
         this.publishDate = Timestamp.fromProto(Timestamps.parse(publishDate));
+
+
     }
 
 
