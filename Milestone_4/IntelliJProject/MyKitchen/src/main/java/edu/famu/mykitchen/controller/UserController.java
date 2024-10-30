@@ -35,7 +35,8 @@ public class UserController {
             RestUser users = new RestUser();
             users.setUserId((String) user.get("userId"));
             users.setUsername((String) user.get("displayName"));
-            users.setUserInfo((PersonalInfo) user.get("userInfo"));
+//            users.setUserInfo((PersonalInfo) user.get("userInfo"));
+            users.setUserInfo(null);
             users.setProfilePic((String) user.get("profilePic"));
             users.setBio((String) user.get("bio"));
             users.setPrivate((Boolean) user.get("isPrivate"));

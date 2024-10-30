@@ -11,6 +11,8 @@ import edu.famu.mykitchen.model.RestUser;
 import edu.famu.mykitchen.model.User;
 import edu.famu.mykitchen.util.ApiResponse;
 import edu.famu.mykitchen.util.PersonalInfo;
+import org.apache.juli.logging.Log;
+import org.apache.juli.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -26,6 +28,8 @@ public class UserService {
     private static final String INGREDIENT_COLLECTION = "Ingredients";
     private static final String RECIPE_COLLECTION = "Recipe";
 
+    protected final Log logger = LogFactory.getLog(getClass());
+
     public UserService(){
         this.firestore = FirestoreClient.getFirestore();
     }
@@ -33,35 +37,36 @@ public class UserService {
 
     private User documentToUser(DocumentSnapshot document) throws ParseException, ExecutionException, InterruptedException {
         User users = null;
-
+        logger.info("Document: " + document);
+        logger.info("called");
         if (document.exists()) {
             users = new User();
             users.setUserId(document.getId());
             users.setUsername(document.getString("displayName"));
 //            users.setUserInfo((PersonalInfo) document.get("userInfo"));
-            users.setUserInfo(null);
+//            users.setUserInfo(null);
             users.setProfilePic(document.getString("profilePic"));
             users.setBio(document.getString("bio"));
-//            users.setPrivate(document.getBoolean("isPrivate"));
-//            users.setVerified(document.getBoolean("isVerified"));
-//            users.setAdministrator(document.getBoolean("isAdministrator"));
+            users.setPrivate(Boolean.TRUE.equals(document.getBoolean("isPrivate")));
+            users.setVerified(Boolean.TRUE.equals(document.getBoolean("isVerified")));
+            users.setAdministrator(Boolean.TRUE.equals(document.getBoolean("isAdministrator")));
 
 //            Date joined = Objects.requireNonNull(document.getTimestamp("joinedOn")).toDate();
 //            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //            sdf.setTimeZone(TimeZone.getTimeZone("UTC-4"));
 //
 //            users.setJoinedOn(sdf.format(joined));
-            users.setJoinedOn(null);
-//            ApiFuture<QuerySnapshot> querySnapshot = firestore.collection(USER_COLLECTION).document(users.getUserId()).collection("following").get();
-//            users.setFollowing((ArrayList<User>) querySnapshot.get().toObjects(User.class));
-//            querySnapshot = firestore.collection(USER_COLLECTION).document(users.getUserId()).collection("followers").get();
-//            users.setFollowers((ArrayList<User>) querySnapshot.get().toObjects(User.class));
-            users.setFollowing(null);
-            users.setFollowers(null);
-//            ApiFuture<QuerySnapshot> querySnapshot1 = firestore.collection(USER_COLLECTION).document(users.getUserId()).collection("favoriteRecipes").get();
-//            users.setFavoriteRecipes((ArrayList<Recipe>) querySnapshot1.get().toObjects(Recipe.class));
-//            querySnapshot1 = firestore.collection(USER_COLLECTION).document(users.getUserId()).collection("uploadedRecipes").get();
-//            users.setUploadedRecipes((ArrayList<Recipe>) querySnapshot1.get().toObjects(Recipe.class));
+//            users.setJoinedOn(null);
+            ApiFuture<QuerySnapshot> querySnapshot = firestore.collection(USER_COLLECTION).document(users.getUserId()).collection("following").get();
+            users.setFollowing((ArrayList<User>) querySnapshot.get().toObjects(User.class));
+            querySnapshot = firestore.collection(USER_COLLECTION).document(users.getUserId()).collection("followers").get();
+            users.setFollowers((ArrayList<User>) querySnapshot.get().toObjects(User.class));
+//            users.setFollowing(null);
+//            users.setFollowers(null);
+            ApiFuture<QuerySnapshot> querySnapshot1 = firestore.collection(USER_COLLECTION).document(users.getUserId()).collection("favoriteRecipes").get();
+            users.setFavoriteRecipes((ArrayList<Recipe>) querySnapshot1.get().toObjects(Recipe.class));
+            querySnapshot1 = firestore.collection(USER_COLLECTION).document(users.getUserId()).collection("uploadedRecipes").get();
+            users.setUploadedRecipes((ArrayList<Recipe>) querySnapshot1.get().toObjects(Recipe.class));
 //            ApiFuture<QuerySnapshot> querySnapshot2 = firestore.collection(USER_COLLECTION).document(users.getUserId()).collection("myFridge").get();
 //            users.setMyFridge((ArrayList<Map<String, Ingredients>>) querySnapshot2.get().toObjects(Ingredients.class));
 users.setMyFridge(null);
@@ -72,6 +77,7 @@ users.setMyFridge(null);
 //            users.setMyFridge((Map<String, ArrayList<Ingredients>>) document.get("myFridge"));
 
         }
+        logger.info("User: " + users);
         return users;
     }
 
@@ -84,11 +90,11 @@ users.setMyFridge(null);
 
         documents.forEach(document -> {
             User user = new User();
-//            try {
-//                user = (documentToUser(document));
-//            } catch (ParseException | ExecutionException | InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
+            try {
+                user = (documentToUser(document));
+            } catch (ParseException | ExecutionException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             users.add(user);
         });
         return users;

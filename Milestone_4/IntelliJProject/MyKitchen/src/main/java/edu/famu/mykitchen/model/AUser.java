@@ -25,12 +25,7 @@ public abstract class AUser {
     private boolean isPrivate;
     private boolean isVerified;
     private boolean isAdministrator;
-    private Timestamp joinedOn;
 
-
-    public void setJoinedOn(String joinedOn) throws ParseException {
-        this.joinedOn = Timestamp.fromProto(Timestamps.parse(joinedOn));
-    }
 
     public boolean isPrivate() {
         return isPrivate;

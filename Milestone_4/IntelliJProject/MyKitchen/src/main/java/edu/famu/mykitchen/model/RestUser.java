@@ -37,13 +37,22 @@ public class RestUser extends AUser implements Serializable {
 //    }
 
     public RestUser(@javax.annotation.Nullable String userId, PersonalInfo userInfo, String profilePic, String bio, String username, boolean isPrivate, boolean isVerified, boolean isAdministrator, Timestamp joinedOn, ArrayList<DocumentReference> followers, ArrayList<DocumentReference> following, ArrayList<DocumentReference> favoriteRecipes, ArrayList<DocumentReference> uploadedRecipes, ArrayList<Map<String, DocumentReference>> myFridge) {
-        super(userId, userInfo, profilePic, bio, username, isPrivate, isVerified, isAdministrator, joinedOn);
+        super(userId, userInfo, profilePic, bio, username, isPrivate, isVerified, isAdministrator);
         this.followers = followers;
         this.following = following;
         this.favoriteRecipes = favoriteRecipes;
         this.uploadedRecipes = uploadedRecipes;
         this.myFridge = myFridge;
     }
+
+    /*public RestUser(@javax.annotation.Nullable String userId, String profilePic, String bio, String username, boolean isPrivate, boolean isVerified, boolean isAdministrator, ArrayList<DocumentReference> followers, ArrayList<DocumentReference> following, ArrayList<DocumentReference> favoriteRecipes, ArrayList<DocumentReference> uploadedRecipes, ArrayList<Map<String, DocumentReference>> myFridge) {
+        super(userId, profilePic, bio, username, isPrivate, isVerified, isAdministrator);
+        this.followers = followers;
+        this.following = following;
+        this.favoriteRecipes = favoriteRecipes;
+        this.uploadedRecipes = uploadedRecipes;
+        this.myFridge = myFridge;
+    }*/
 
     // Custom serialization logic for DocumentReference
     private void writeObject(java.io.ObjectOutputStream out) throws IOException {
