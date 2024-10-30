@@ -3,6 +3,7 @@ package edu.famu.mykitchen.controller;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
+import edu.famu.mykitchen.model.Ingredients;
 import edu.famu.mykitchen.model.Recipe;
 import edu.famu.mykitchen.model.RestUser;
 import edu.famu.mykitchen.model.User;
@@ -34,7 +35,7 @@ public class UserController {
         try {
             RestUser users = new RestUser();
             users.setUserId((String) user.get("userId"));
-            users.setUsername((String) user.get("displayName"));
+            users.setUsername((String) user.get("username"));
 //            users.setUserInfo((PersonalInfo) user.get("userInfo"));
             users.setUserInfo(null);
             users.setProfilePic((String) user.get("profilePic"));
@@ -152,12 +153,12 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<ApiResponse<String>> updateUser(@PathVariable String userId, @RequestBody HashMap<String, Object> user) {
+    @PutMapping("/update")
+    public ResponseEntity<ApiResponse<String>> updateUser(@RequestBody HashMap<String, Object> user) {
         try {
             RestUser users = new RestUser();
             users.setUserId((String) user.get("userId"));
-            users.setUsername((String) user.get("displayName"));
+            users.setUsername((String) user.get("username"));
             users.setUserInfo((PersonalInfo) user.get("userInfo"));
             users.setProfilePic((String) user.get("profilePic"));
             users.setBio((String) user.get("bio"));
@@ -209,13 +210,14 @@ public class UserController {
             }
             users.setUploadedRecipes(uploadedRecipesRef);
 
-            ArrayList<String> Ilist = (ArrayList<String>) user.get("myFridge");
+            ArrayList<Map<String, Ingredients>> Ilist = (ArrayList<Map<String, Ingredients>>) user.get("myFridge");
 
             ArrayList<Map<String, DocumentReference>> myFridgeRef = new ArrayList<>();
             if (!Ilist.isEmpty()) {
-                for (String myFridge : Ilist) {
+                for (Map<String, Ingredients> myFridge : Ilist) {
                     Firestore db = FirestoreClient.getFirestore();
-                    myFridgeRef.add((Map<String, DocumentReference>) db.collection("myFridge").document(myFridge));
+                    myFridgeRef.add(myFridge.entrySet().stream()
+                            .collect(Map.Entry::getKey, e -> db.collection("myFridge").document(e.getValue())));
                 }
             }
             users.setMyFridge(myFridgeRef);
@@ -226,5 +228,19 @@ public class UserController {
             return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
         }
         return null;
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<ApiResponse<User>> deleteUserById(@PathVariable String userId) {
+        try {
+            User user = service.deleteUserById(userId);
+            return ResponseEntity.status(200).body(new ApiResponse<>(true, "User deleted successfully", user, null));
+        } catch (ExecutionException e) {
+            return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
+            return ResponseEntity.status(400).body(new ApiResponse<>(false, "Invalid User ID", null, e));
+        }
     }
 }

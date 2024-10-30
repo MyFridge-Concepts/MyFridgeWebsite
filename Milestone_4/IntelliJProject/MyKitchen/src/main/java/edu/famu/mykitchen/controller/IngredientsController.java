@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-//http://localhost:8080/api/user
+//http://localhost:8080/api/ingredients
 
 @RestController
 @RequestMapping("/api/ingredients")
@@ -30,7 +30,7 @@ public class IngredientsController {
         this.service = service;
     }
 
-    @PostMapping("/")
+    @PostMapping("/create")
     public ResponseEntity<ApiResponse<String>> createIngredient(@RequestBody HashMap<String, Object> ingredients) {
         try {
             Ingredients ingredient = new Ingredients();
@@ -80,7 +80,7 @@ public class IngredientsController {
         }
     }
 
-    @GetMapping("/name/{name}")
+    @GetMapping("/{name}")
     public ResponseEntity<ApiResponse<Ingredients>> getIngredientByName(@PathVariable String name) {
         try {
             Ingredients ingredient = service.getIngredientByName(name);
@@ -94,4 +94,40 @@ public class IngredientsController {
             return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
         }
     }
+
+    @DeleteMapping("/delete/{ingredientId}")
+    public ResponseEntity<ApiResponse<Ingredients>> deleteIngredient(@PathVariable String ingredientId) {
+        try {
+            Ingredients ingredient = service.deleteIngredient(ingredientId);
+
+            return ResponseEntity.status(200).body(new ApiResponse<>(true, "User retrieved successfully", ingredient, null));
+        } catch (ExecutionException e) {
+            return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
+        } catch (InterruptedException e) {
+           return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
+        } catch (ParseException e) {
+            return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<ApiResponse<Ingredients>> updateIngredient( @RequestBody HashMap<String, Object> ingredients) {
+        try {
+            Ingredients ingredient = new Ingredients();
+            ingredient.setIngredientId((String) ingredients.get("ingredientId"));
+            ingredient.setName((String) ingredients.get("name"));
+            ingredient.setCategory((String) ingredients.get("category"));
+            ingredient.setNutritionalInfo((Map<String, String>) ingredients.get("nutritionalInfo"));
+
+            Ingredients updatedIngredient = service.updateIngredient( ingredient);
+
+            return ResponseEntity.status(200).body(new ApiResponse<>(true, "User updated successfully", updatedIngredient, null));
+        } catch (ExecutionException e) {
+            return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

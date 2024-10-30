@@ -106,6 +106,14 @@ users.setMyFridge(null);
         return documentToUser(userSnap);
     }
 
+    public User deleteUserById(String userId) throws ParseException, ExecutionException, InterruptedException {
+        DocumentReference usersRef = firestore.collection(USER_COLLECTION).document(userId);
+        DocumentSnapshot userSnap = usersRef.get().get();
+        User user = documentToUser(userSnap);
+        usersRef.delete();
+        return user;
+    }
+
 
     public User getUserByUsername(String username) throws ParseException, ExecutionException, InterruptedException {
         Query query = firestore.collection(USER_COLLECTION).whereEqualTo("username", username);

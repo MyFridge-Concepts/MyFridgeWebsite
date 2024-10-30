@@ -46,6 +46,25 @@ public class IngredientsService {
         return ingredients;
     }
 
+
+    public Ingredients updateIngredient(Ingredients ingredient) throws ExecutionException, InterruptedException {
+        DocumentReference docRef = firestore.collection(INGREDIENT_COLLECTION).document(ingredient.getIngredientId());
+        ApiFuture<WriteResult> result = docRef.set(ingredient);
+        return ingredient;
+    }
+
+    public Ingredients deleteIngredient(String ingredientId) throws ExecutionException, InterruptedException, ParseException {
+        DocumentReference docRef = firestore.collection(INGREDIENT_COLLECTION).document(ingredientId);
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+        Ingredients ingredient = null;
+        if (document.exists()) {
+            ingredient = documentToIngredients(document);
+            ApiFuture<WriteResult> result = docRef.delete();
+        }
+        return ingredient;
+    }
+
     public List<Ingredients> getAllIngredients() throws ExecutionException, InterruptedException {
         CollectionReference usersCollection = firestore.collection(INGREDIENT_COLLECTION);
         ApiFuture<QuerySnapshot> querySnapshot = usersCollection.get();
