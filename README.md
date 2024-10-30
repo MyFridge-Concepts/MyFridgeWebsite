@@ -1,4 +1,3 @@
-
 # MyKitchen Website Application - README
 
 ## Overview
@@ -29,14 +28,15 @@ Uses provided ingredient information (photo or text box) to search and display i
     - Follow other users
     - Direct messaging system for recipe inquiries
     - Settings (Accessibility, Notifications, General)
+
 ### 2. Screen Archetypes
 - **Login or Register**: User logs in or creates an account.
 - **MyFridge**: Manage the content in your virtual fridge, search for recipes based on those ingredients.
 - **Profile**: Upload photos, manage posts, favorites, and view your activity log.
 - **Food Screen**: View recipe details, star ratings, and comments.
 - **Settings**: Change app language, notification settings, and more.
-- **MyKitchen**: Provides a curated feed of recipies and other content made by followed creators
-- **Recipie Details**: Provides details on the currently viewed recipie.
+- **MyKitchen**: Provides a curated feed of recipes and other content made by followed creators
+- **Recipe Details**: Provides details on the currently viewed recipe.
 
 ### 3. Navigation
 **Tab Navigation**:
@@ -67,14 +67,21 @@ Images:
 ### MyFridge
 ![Page Preview](images/MyFridge.png)
 
-### Recipie Page
+### Recipe Page
 ![Page Preview](images/RecipiePage.png)
 
 ### Search Results
 ![Page Preview](images/RecipieListPage.png)
 
-### Comments on Recipies
+### Comments on Recipes
 ![Page Preview](images/Recipie_Comments.png)
+
+### Additional Previews
+![GIF Preview 1](images/NpnLjVm-Imgur.gif)
+
+![GIF Preview 2](images/Animation.gif)
+
+In this sprint, we set up Firebase and structured most of our models and utilities, laying the groundwork for the app’s database interactions. Additionally, we began developing key controllers, which will manage user and recipe data flow throughout the application. This progress brings us closer to a fully functional backend that will support essential app functionalities like user profile management, ingredient tracking, and recipe retrieval.
 
 ---
 
@@ -82,52 +89,52 @@ Images:
 
 ### Posts
 
-| Property      | Type           | Description                                   |
-| ------------- | -------------- | --------------------------------------------- |
-| `objectId`    | String         | Unique ID for the post                        |
-| `author`      | User Reference | User who created the post                     |
-| `image`       | File           | Image of the recipe                           |
-| `caption`     | String         | Caption for the post                          |
-| `commentsCount`| Number        | Number of comments                           |
-| `likesCount`  | Number         | Number of likes                              |
-| `createdAt`   | DateTime       | Date the post was created                     |
-| `updatedAt`   | DateTime       | Last updated date                             |
+| Property       | Type            | Description                                    |
+| -------------- | --------------- | ---------------------------------------------- |
+| `objectId`     | String          | Unique ID for the post                         |
+| `author`       | User Reference  | User who created the post                      |
+| `image`        | File            | Image of the recipe                            |
+| `caption`      | String          | Caption for the post                           |
+| `commentsCount`| Number          | Number of comments                             |
+| `likesCount`   | Number          | Number of likes                                |
+| `createdAt`    | DateTime        | Date the post was created                      |
+| `updatedAt`    | DateTime        | Last updated date                              |
 
 ### User
 
-| Property          | Type     | Description                                    |
-| ----------------- | -------- | ---------------------------------------------- |
-| `user_id`         | String   | Unique ID                                      |
-| `username`        | String   | Display name                                   |
-| `email`           | String   | Email address                                  |
-| `password`        | String   | Password for account login                     |
-| `favorite_recipes`| Array of Recipie References   | Liked recipes                                  |
-| `uploaded_recipes`| Array of Recipie References   | Recipes uploaded by the user                   |
-| `personalIngredients`| Array of Ingredients| Users Personal Myfridge data      |
-| `followingList`| ArrayList of user_Id References| Users following list         |
-| `followerNum`| Long Int        | Number of followers                           |
+| Property            | Type                   | Description                                    |
+| ------------------- | ---------------------- | ---------------------------------------------- |
+| `user_id`           | String                 | Unique ID                                      |
+| `username`          | String                 | Display name                                   |
+| `email`             | String                 | Email address                                  |
+| `password`          | String                 | Password for account login                     |
+| `favorite_recipes`  | Array of Recipe References | Liked recipes                             |
+| `uploaded_recipes`  | Array of Recipe References | Recipes uploaded by the user               |
+| `personalIngredients` | Array of Ingredients  | User's personal MyFridge data                  |
+| `followingList`     | ArrayList of user_id References | List of users the user is following     |
+| `followerNum`       | Long Int               | Number of followers                           |
 
 ### Recipe
 
-| Property      | Type     | Description                                    |
-| ------------- | -------- | ---------------------------------------------- |
-| `recipe_id`   | String   | Unique ID                                      |
-| `name`        | String   | Name of the recipe                             |
-| `ingredients` | Array of Ingredient References   | List of ingredients                            |
-| `instructions`| String   | How to make the dish                           |
-| `image_url`   | String   | URL for the image of the dish                  |
-| `user_id`     | String   | Reference to the user who posted the recipe    |
-| `ratings`     | Array    | Star rating for the dish                       |
-| `ingredientCompletion`|Float | Shows the completion rate of the user's ingredients |
+| Property             | Type                | Description                                    |
+| -------------------- | ------------------- | ---------------------------------------------- |
+| `recipe_id`          | String              | Unique ID                                      |
+| `name`               | String              | Name of the recipe                             |
+| `ingredients`        | Array of Ingredient References | List of ingredients                     |
+| `instructions`       | String              | Instructions for making the dish               |
+| `image_url`          | String              | URL for the image of the dish                  |
+| `user_id`            | String              | Reference to the user who posted the recipe    |
+| `ratings`            | Array               | Star ratings for the dish                      |
+| `ingredientCompletion` | Float             | Completion rate of the user's ingredients      |
 
 ### Ingredients
 
-| Property      | Type     | Description                                    |
-| ------------- | -------- | ---------------------------------------------- |
-| `ingredient_id`| String  | Unique ID                                      |
-| `name`        | String   | Name of the ingredient                         |
-| `quantity`    | Number   | Quantity of the ingredient in possession       |
-| `nutritionDetails`| String | Provides nutritional details and information about the ingredient if available|
+| Property             | Type                | Description                                    |
+| -------------------- | ------------------- | ---------------------------------------------- |
+| `ingredient_id`      | String              | Unique ID                                      |
+| `name`               | String              | Name of the ingredient                         |
+| `quantity`           | Number              | Quantity of the ingredient in possession       |
+| `nutritionDetails`   | String              | Nutritional details and information, if available |
 
 ### Networking
 
@@ -159,4 +166,13 @@ Images:
     - (Read/GET) Fetch logged-in user data
     - (Update/PUT) Update user profile image
  
-*Please note that ChatGPT was used to assist in formatting this document, Thank You.*
+*Please note that ChatGPT was used to assist in formatting this document. Thank you.*
+
+---
+
+## Milestone 4 Deliverables
+
+- **Updated status of issues in Project board** (2pts)
+- **Sprint planned for next week** (Issues created, assigned & added to project board) (3pts)
+- **Completed user stories checked-off in README** (2pts)
+- **New GIFs created to show build progress and added to README along with short paragraph on what was completed** (3pts)
