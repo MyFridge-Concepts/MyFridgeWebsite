@@ -16,7 +16,7 @@ public class MyKitchenApplication {
     public static void main(String[] args) throws IOException {
         ClassLoader loader = MyKitchenApplication.class.getClassLoader();
 
-        File file = new File(loader.getResource("serviceAccountKey").getFile());
+        File file = new File(loader.getResource("serviceAccountKey.json").getFile());
 
         FileInputStream serviceAccount = new FileInputStream(file.getAbsolutePath());
 
