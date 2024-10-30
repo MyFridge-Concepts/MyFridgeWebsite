@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,4 +15,5 @@ public class Ingredients {
     private String ingredientId;
     private String name;
     private String category;
+    private Map<String, String> nutritionalInfo;
 }
