@@ -2,21 +2,16 @@ package edu.famu.mykitchen.service;
 
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import edu.famu.mykitchen.model.Ingredients;
 import edu.famu.mykitchen.model.Recipe;
 import edu.famu.mykitchen.model.RestUser;
 import edu.famu.mykitchen.model.User;
-import edu.famu.mykitchen.util.ApiResponse;
-import edu.famu.mykitchen.util.PersonalInfo;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -69,7 +64,7 @@ public class UserService {
             users.setUploadedRecipes((ArrayList<Recipe>) querySnapshot1.get().toObjects(Recipe.class));
 //            ApiFuture<QuerySnapshot> querySnapshot2 = firestore.collection(USER_COLLECTION).document(users.getUserId()).collection("myFridge").get();
 //            users.setMyFridge((ArrayList<Map<String, Ingredients>>) querySnapshot2.get().toObjects(Ingredients.class));
-users.setMyFridge(null);
+            users.setMyFridge(null);
 //            users.setFollowing((ArrayList<User>) document.get("following"));
 //            users.setFollowers((ArrayList<User>) document.get("followers"));
 //            users.setFavoriteRecipes((ArrayList<Recipe>) document.get("favoriteRecipes"));
@@ -118,34 +113,23 @@ users.setMyFridge(null);
     public User getUserByUsername(String username) throws ParseException, ExecutionException, InterruptedException {
         Query query = firestore.collection(USER_COLLECTION).whereEqualTo("username", username);
         ApiFuture<QuerySnapshot> future = query.get();
-        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-
-        List<User> users = documents.isEmpty() ? null : new ArrayList<>();
-
-        documents.forEach(document -> {
-            User user = null;
-
-            if (document.exists()) {
-                try {
-                    user = documentToUser(document);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                } catch (ExecutionException e) {
-                    throw new RuntimeException(e);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-
-                users.add(user);
-            }
-        });
-        return users.get(0);
+        List<QueryDocumentSnapshot> document = future.get().getDocuments();
+        DocumentReference usersRef = firestore.collection(USER_COLLECTION).document(username);
+        DocumentSnapshot userSnap = usersRef.get().get();
+        return documentToUser(userSnap);
     }
 
     public String createUser(RestUser user) throws ExecutionException, InterruptedException {
         ApiFuture<DocumentReference> writeResult = firestore.collection(USER_COLLECTION).add(user);
         DocumentReference rs = writeResult.get();
         return rs.getId();
+    }
+
+    public RestUser updateUser(RestUser user) throws ExecutionException, InterruptedException {
+        DocumentReference usersRef = firestore.collection(USER_COLLECTION).document(user.getUserId());
+        usersRef.set(user);
+
+        return user;
     }
 
 }

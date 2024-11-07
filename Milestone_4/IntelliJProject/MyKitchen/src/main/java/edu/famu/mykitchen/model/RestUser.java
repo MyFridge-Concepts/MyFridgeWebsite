@@ -54,6 +54,17 @@ public class RestUser extends AUser implements Serializable {
         this.myFridge = myFridge;
     }*/
 
+
+    public RestUser(User user) {
+        super(user.getUserId(), user.getUserInfo(), user.getProfilePic(), user.getBio(), user.getUsername(), user.isPrivate(), user.isVerified(), user.isAdministrator());
+        followers = new ArrayList<>();
+        following = new ArrayList<>();
+        favoriteRecipes = new ArrayList<>();
+        uploadedRecipes = new ArrayList<>();
+        myFridge = new ArrayList<>();
+    }
+
+
     // Custom serialization logic for DocumentReference
     private void writeObject(java.io.ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
