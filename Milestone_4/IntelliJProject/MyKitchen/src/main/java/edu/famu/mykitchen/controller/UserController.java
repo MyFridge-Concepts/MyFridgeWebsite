@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -91,11 +92,11 @@ public class UserController {
 
             ArrayList<String> Ilist = (ArrayList<String>) user.get("myFridge");
 
-            ArrayList<Map<String, DocumentReference>> myFridgeRef = new ArrayList<>();
+            ArrayList<Map<String, Object>> myFridgeRef = new ArrayList<>();
             if (!Ilist.isEmpty()) {
                 for (String myFridge : Ilist) {
                     Firestore db = FirestoreClient.getFirestore();
-                    myFridgeRef.add((Map<String, DocumentReference>) db.collection("myFridge").document(myFridge));
+                    myFridgeRef.add((Map<String, Object>) db.collection("myFridge").document(myFridge));
                 }
             }
             users.setMyFridge(myFridgeRef);
@@ -213,13 +214,23 @@ public ResponseEntity<ApiResponse<String>> updateUser(@PathVariable String usern
         }
         newinfo.setUploadedRecipes(uploadedRecipesRef);
 
-        ArrayList<Map<String, Ingredients>> Ilist = (ArrayList<Map<String, Ingredients>>) user.get("myFridge");
-        ArrayList<Map<String, DocumentReference>> myFridgeRef = new ArrayList<>();
+//add myfridge
+        ArrayList<Map<String, String>> Ilist = (ArrayList<Map<String, String>>) user.get("myFridge");
+        ArrayList<Map<String, Object>> myFridgeRef = new ArrayList<>();
         if (Ilist != null && !Ilist.isEmpty()) {
-            for (Map<String, Ingredients> myFridge : Ilist) {
-                Map<String, DocumentReference> fridgeMap = FirestoreClient.getFirestore().collection("myFridge").document(String.valueOf(myFridge.get()));
+            for(Map<String, String> fridgeMap : Ilist) {
 
-                myFridgeRef.add(fridgeMap);
+                Map<String, Object> item = new HashMap<>();
+                for (Map.Entry<String, String> myFridge : fridgeMap.entrySet()) {
+                    String key = myFridge.getKey();
+                    if (Objects.equals(key, "ingredientId"))
+                        item.put("ingredientId", FirestoreClient.getFirestore().collection("Ingredient").document(myFridge.getValue()));
+                    else if (Objects.equals(key, "qty"))
+                        item.put("qty", Integer.getInteger(myFridge.getValue()));
+                    else
+                        item.put("unit", myFridge.getValue());
+                }
+                myFridgeRef.add(item);
             }
         }
         newinfo.setMyFridge(myFridgeRef);
