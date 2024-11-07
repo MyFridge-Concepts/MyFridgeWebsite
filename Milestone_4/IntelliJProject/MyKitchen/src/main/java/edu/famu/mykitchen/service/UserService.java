@@ -126,9 +126,10 @@ public class UserService {
     }
 
     public RestUser updateUser(RestUser user) throws ExecutionException, InterruptedException {
-        ApiFuture<WriteResult> writeResult = firestore.collection(USER_COLLECTION).document(user.getUserId()).set(user);
-        WriteResult usersRef = writeResult.get();
-        R
+        DocumentReference usersRef = firestore.collection(USER_COLLECTION).document(user.getUserId());
+        usersRef.set(user).get();
+
+        return user;
 
 
     }
