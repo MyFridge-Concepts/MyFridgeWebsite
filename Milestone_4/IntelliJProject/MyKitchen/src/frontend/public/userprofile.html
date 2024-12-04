@@ -29,7 +29,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <!-- Profile Icon -->
-            <a class="navbar-brand d-flex align-items-center" href="profile.html" aria-label="Profile">
+            <a class="navbar-brand d-flex align-items-center" href="userprofile.html" aria-label="Profile">
                 <i class="bi bi-person-circle fs-3"></i>
             </a>
             <!-- Navbar Brand -->
@@ -58,62 +58,8 @@
 
 <!-- Main Content -->
 <main>
-    <!-- Move to its own PAGE -->
-    <!-- Ingredients Table -->
-    <section class="container my-4">
-        <h2 class="mb-3">Ingredients in My Fridge</h2>
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="ingredientsTable">
-                <thead class="table-dark">
-                <tr>
-                    <th>Category</th>
-                    <th>Name</th>
-                    <th>Avg Serving Size</th>
-                    <th>Calories</th>
-                    <th>Carbs</th>
-                    <th>Protein</th>
-                    <th>Sugar</th>
-                    <th>Used</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- Existing ingredients -->
-                <tr>
-                    <td>Vegetable</td>
-                    <td>Tomatoes</td>
-                    <td>1 medium</td>
-                    <td>22</td>
-                    <td>4.8g</td>
-                    <td>1.1g</td>
-                    <td>3.2g</td>
-                    <td><input type="checkbox" aria-label="Tomatoes used"></td>
-                    <td>
-                        <button class="btn btn-info btn-sm">Details</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Dairy</td>
-                    <td>Cheese</td>
-                    <td>1 slice</td>
-                    <td>113</td>
-                    <td>0.9g</td>
-                    <td>6.7g</td>
-                    <td>0.5g</td>
-                    <td><input type="checkbox" aria-label="Cheese used"></td>
-                    <td>
-                        <button class="btn btn-info btn-sm">Details</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </td>
-                </tr>
-                <!-- New ingredients will be added here -->
-                </tbody>
-            </table>
-        </div>
-    </section>
 
-    <-- ONLY APPEAR AFTER USER HAS SEARCHED SOMETHING, LOADS TOP 3 RECIPIES OF THE SEARCH, OTHERWISE SHOW SUGGESTED OR HOT RECIPIES -->
+
     <!-- Top Recipes -->
     <section class="container my-4">
         <h2 class="mb-3">Top Recipes</h2>
@@ -152,7 +98,6 @@
                 </div>
             </div>
         </div>
-        <!-- SHOW SEARCH RESULTS -->
         <!-- Show More Recipes Button -->
         <div class="text-center my-4">
             <a href="recipes.html" class="btn btn-outline-primary btn-lg">Show More Recipes</a>
@@ -160,11 +105,6 @@
     </section>
 
     <!-- Social Feed -->
-    <!-- CONTINUOUSLY LOADS MORE CONTENT -->
-    <!-- USE JAVASCRIPT TO LOAD MORE CONTENT -->
-    <!-- ONLY ALLOW INTERACTION IF USER IS LOGGED IN, ELSE PROMPT USER TO LOG IN -->
-    <!-- ADD COMMENT BUTTON ONLY APPEARS IF USER IS LOGGED IN -->
-    <!-- To create an infinitely scrolling media feed, you need to use JavaScript to detect when a user nears the bottom of the content container, then make an API call to fetch the next batch of media data, and dynamically append it to the existing feed on the page, often with a loading indicator while new content is being retrieved; this process repeats as the user continues to scroll down, creating a seamless scrolling experience. -->
     <section class="container my-4">
         <h2 class="mb-3">Social Feed</h2>
         <!-- Add Comment Button -->
@@ -308,7 +248,7 @@
         <p>&copy; 2023 Recipe Finder. All rights reserved.</p>
     </div>
 </footer>
-<-- move to a JS file? -->
+
 <!-- Bootstrap JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YOaK6t6VxF7E7lAvb/5PjpV+0zzw8eSDdBke6dZr1EJZ6xI5Xl4eWc3rFhwHdVQ" crossorigin="anonymous"></script>
 <!-- Custom JavaScript -->
