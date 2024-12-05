@@ -18,7 +18,11 @@ target/
 *.iws
 *.iml
 *.ipr
+
+### SERVICE ACCOUNT KEY ###
 **/serviceAccountKey.json
+serviceAccountKey.json
+
 
 ### NetBeans ###
 /nbproject/private/
