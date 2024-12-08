@@ -28,15 +28,6 @@ public class RestUser extends AUser implements Serializable {
     private @Nullable ArrayList<Map<String, Object>> myFridge;
 
 
-//    public RestUser(@Nullable String userId, String displayName, String email, Timestamp createdAt, @Nullable ArrayList<DocumentReference> followers, @Nullable ArrayList<DocumentReference> following, @Nullable ArrayList<DocumentReference> favoriteRecipes, @Nullable ArrayList<DocumentReference> uploadedRecipes, @Nullable Map<String, ArrayList<DocumentReference>> myFridge) {
-//        super(userId, displayName, email, createdAt);
-//        this.followers = followers;
-//        this.following = following;
-//        this.favoriteRecipes = favoriteRecipes;
-//        this.uploadedRecipes = uploadedRecipes;
-//        this.myFridge = myFridge;
-//    }
-
     public RestUser(@javax.annotation.Nullable String userId, PersonalInfo userInfo, String profilePic, String bio, String username, boolean isPrivate, boolean isVerified, boolean isAdministrator, ArrayList<DocumentReference> followers, ArrayList<DocumentReference> following, ArrayList<DocumentReference> favoriteRecipes, ArrayList<DocumentReference> uploadedRecipes, ArrayList<Map<String, Object>> myFridge) {
         super(userId, userInfo, profilePic, bio, username, isPrivate, isVerified, isAdministrator);
         this.followers = followers;
@@ -45,17 +36,6 @@ public class RestUser extends AUser implements Serializable {
         this.uploadedRecipes = uploadedRecipes;
         this.myFridge = myFridge;
     }
-
-
-
-    /*public RestUser(@javax.annotation.Nullable String userId, String profilePic, String bio, String username, boolean isPrivate, boolean isVerified, boolean isAdministrator, ArrayList<DocumentReference> followers, ArrayList<DocumentReference> following, ArrayList<DocumentReference> favoriteRecipes, ArrayList<DocumentReference> uploadedRecipes, ArrayList<Map<String, DocumentReference>> myFridge) {
-        super(userId, profilePic, bio, username, isPrivate, isVerified, isAdministrator);
-        this.followers = followers;
-        this.following = following;
-        this.favoriteRecipes = favoriteRecipes;
-        this.uploadedRecipes = uploadedRecipes;
-        this.myFridge = myFridge;
-    }*/
 
 
     public RestUser(User user) {
@@ -68,28 +48,5 @@ public class RestUser extends AUser implements Serializable {
     }
 
 
-    // Custom serialization logic for DocumentReference
-    /*private void writeObject(java.io.ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
-        // Serialize DocumentReference objects as their paths
-        out.writeObject(followers.stream().map(DocumentReference::getPath).collect(Collectors.toList()));
-        out.writeObject(following.stream().map(DocumentReference::getPath).collect(Collectors.toList()));
-        out.writeObject(favoriteRecipes.stream().map(DocumentReference::getPath).collect(Collectors.toList()));
-        out.writeObject(uploadedRecipes.stream().map(DocumentReference::getPath).collect(Collectors.toList()));
-        out.writeObject(myFridge.stream().map(map -> map.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> ((DocumentReference) e.getValue()).getPath())).collect(Collectors.toList()));
-    }
 
-    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        Firestore db = FirestoreClient.getFirestore();
-        // Deserialize paths back to DocumentReference objects
-        followers = (ArrayList<DocumentReference>) ((List<String>) in.readObject()).stream().map(db::document).collect(Collectors.toList());
-        following = (ArrayList<DocumentReference>) ((List<String>) in.readObject()).stream().map(db::document).collect(Collectors.toList());
-        favoriteRecipes = (ArrayList<DocumentReference>) ((List<String>) in.readObject()).stream().map(db::document).collect(Collectors.toList());
-        uploadedRecipes = (ArrayList<DocumentReference>) ((List<String>) in.readObject()).stream().map(db::document).collect(Collectors.toList());
-        myFridge = (ArrayList<Map<String, Object>>) ((List<Map<String, String>>) in.readObject()).stream().map(map -> map.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> db.document(e.getValue()))).collect(Collectors.toList());
-
-    }*/
 }

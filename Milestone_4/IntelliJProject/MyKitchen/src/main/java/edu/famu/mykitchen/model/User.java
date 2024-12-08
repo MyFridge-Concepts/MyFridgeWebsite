@@ -28,13 +28,4 @@ public class User extends AUser {
         this.myFridge = myFridge;
     }
 
-
-    /*public User(@javax.annotation.Nullable String userId, String profilePic, String bio, String username, boolean isPrivate, boolean isVerified, boolean isAdministrator, ArrayList<User> followers, ArrayList<User> following, ArrayList<Recipe> favoriteRecipes, ArrayList<Recipe> uploadedRecipes, ArrayList<Map<String, Ingredients>> myFridge) {
-        super(userId, profilePic, bio, username, isPrivate, isVerified, isAdministrator);
-        this.followers = followers;
-        this.following = following;
-        this.favoriteRecipes = favoriteRecipes;
-        this.uploadedRecipes = uploadedRecipes;
-        this.myFridge = myFridge;
-    }*/
 }
