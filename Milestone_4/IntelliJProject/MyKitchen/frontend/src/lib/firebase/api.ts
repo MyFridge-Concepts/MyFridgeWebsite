@@ -31,7 +31,7 @@ export async function createUserAccount(user: INewUser): Promise<UserCredential 
             following: [],                  // Empty following array
             favoriteRecipes: [],            // Empty favorite recipes array
             uploadedRecipes: [],            // Empty uploaded recipes array
-            myFridge: [[]]                  // Empty fridge data
+            myFridge: []                  // Empty fridge data
         };
 
         // Add the user document to Firestore
