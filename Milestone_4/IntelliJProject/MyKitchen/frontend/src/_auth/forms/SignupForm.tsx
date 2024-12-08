@@ -15,6 +15,7 @@ import {SignupValidation} from "@/lib/validation";
 import {z} from "zod";
 import Loader from "@/components/shared/loader.tsx";
 import {Link} from "react-router-dom";
+import {createUserAccount} from "@/lib/firebase/api.ts";
 
 
 
@@ -35,10 +36,11 @@ const SignupForm = () => {
 
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof SignupValidation>) {
-        // create a new user
-        // const newUser = await createUserAccount(values);
-        // console.log(newUser);
-        console.log(values)
+
+        const newUser = await createUserAccount(values);
+
+        console.log(newUser)
+
     }
 
 

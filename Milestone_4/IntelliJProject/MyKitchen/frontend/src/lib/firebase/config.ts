@@ -10,7 +10,7 @@ import { getAnalytics, Analytics } from "firebase/analytics";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export const firebaseConfig = {
     apiKey: "AIzaSyBY--Z99TQjGSghASbQZm_5XWXldlcRkN4",
-    authDomain: "myfridgewebsite.firebaseapp.com",
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
     projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
     storageBucket: "myfridgewebsite.firebasestorage.app",
     messagingSenderId: "189008771962",
