@@ -1,15 +1,32 @@
 import {User} from "firebase/auth";
 
+export type ExpandedUser = {
+    id: string;
+    first_name: string;
+    last_name: string;
+    username: string;
+    email: string;
+    pfp: string;
+    bio: string;
+    isPrivate: boolean;
+    isVerified: boolean;
+    isAdministrator: boolean;
+    followers: string[];
+    following: string[];
+    likedPosts: { recipes: string[]; posts: string[] };
+    posts: { recipes: string[]; posts: string[] };
+    myFridge: { ingredientId: string | null; unit: string; qty: number }[];
+    pfpid: string;
+}
 
-export interface IContextType {
+
+// Define the types for the context
+export interface AuthContextType {
     user: IUser;
     isAuthenticated: boolean;
     isLoading: boolean;
-    setUser: React.Dispatch<React.SetStateAction<IUser>>;
-    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-    checkAuthUser: (firebaseUser?: User | null) => Promise<boolean>;
+    checkAuthUser: () => Promise<boolean>;
 }
-
 
 
 // Navigation Link Type
