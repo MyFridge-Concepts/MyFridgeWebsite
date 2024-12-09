@@ -4,11 +4,11 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/
 import {Input} from "@/components/ui/input"
 import {Button} from "@/components/ui/button"
 import {useForm} from "react-hook-form";
-import {SigninValidation, SignupValidation} from "@/lib/validation";
+import {SigninValidation} from "@/lib/validation";
 import {z} from "zod";
 import Loader from "@/components/shared/loader.tsx";
 import {Link, useNavigate} from "react-router-dom";
-import {useCreateUserAccount, useSignInAccount} from "@/lib/react-query/queriesAndMutations.ts";
+import {useSignInAccount} from "@/lib/react-query/queriesAndMutations.ts";
 import {useUserContext} from "@/context/AuthContext.tsx";
 
 
@@ -17,7 +17,7 @@ const SigninForm = () => {
     const {checkAuthUser, isLoading: isUserLoading} = useUserContext();
     const navigate = useNavigate();
 
-    const {mutateAsync: signInAccount, isPending } = useSignInAccount()
+    const {mutateAsync: signInAccount } = useSignInAccount()
 
 
     // 1. Define your form.
@@ -30,47 +30,7 @@ const SigninForm = () => {
     });
 
     // 2. Define a submit handler.
-    async function onSubmit(values: z.infer<typeof SigninValidation> & { first_name: string; last_name: string }) {
-        /*try {
-
-        const newUser = await createUserAccount(values);
-
-            if (!newUser) {
-                toast({ title: "Sign up failed. Please try again.", })
-
-                return;
-            }
-
-            const session = await signInAccount({
-                email: values.email,
-                password: values.password,
-            })
-
-            if (!session) {
-                toast({ title: "Something went wrong. Please login your new account" });
-
-                navigate("/sign-in");
-
-                return;
-            }
-
-            const isLoggedIn = await checkAuthUser();
-
-            if (isLoggedIn) {
-                form.reset();
-
-                navigate("/")
-            } else {
-                toast({ title: "Login failed. Please try again.", })
-
-                return;
-            }
-       } catch (error) {
-            console.error("Error signing in user", error);
-            toast({
-                title: "Sign In Failed, Please try again"
-            });
-        }*/
+    async function onSubmit(values: z.infer<typeof SigninValidation>) {
         try {
 
 
