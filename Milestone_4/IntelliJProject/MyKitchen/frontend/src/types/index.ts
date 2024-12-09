@@ -1,3 +1,17 @@
+import {User} from "firebase/auth";
+
+
+export interface IContextType {
+    user: IUser;
+    isAuthenticated: boolean;
+    isLoading: boolean;
+    setUser: React.Dispatch<React.SetStateAction<IUser>>;
+    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+    checkAuthUser: (firebaseUser?: User | null) => Promise<boolean>;
+}
+
+
+
 // Navigation Link Type
 export type INavLink = {
     imgURL: string;
@@ -7,11 +21,32 @@ export type INavLink = {
 
 // User Update Type
 export type IUpdateUser = {
-    userId: string;
-    name: string;
-    bio: string;
-    imageId: string;
-    imageUrl: URL | string; // URL for consistency with potential string fallback
+    id: string; // User's unique identifier
+    first_name: string; // First name
+    last_name: string; // Last name
+    username: string; // Username
+    email: string; // Email address
+    pfp: string; // Profile picture URL
+    bio: string; // Bio of the user
+    isPrivate: boolean; // Privacy setting
+    isVerified: boolean; // Verification status
+    isAdministrator: boolean; // Admin status
+    followers: string[]; // Array of follower IDs
+    following: string[]; // Array of following IDs
+    likedPosts: {
+        recipes: string[]; // Array of liked recipe IDs
+        posts: string[]; // Array of liked post IDs
+    };
+    posts: {
+        recipes: string[]; // Array of uploaded recipe IDs
+        posts: string[]; // Array of uploaded post IDs
+    };
+    myFridge: {
+        ingredientId: string | null; // Ingredient ID
+        unit: string; // Unit
+        qty: number; // Quantity
+    }[];
+    pfpid: string; // Profile picture ID
     file: File[]; // Array of File objects
 };
 
@@ -38,19 +73,40 @@ export type IUpdatePost = {
 // User Type
 export type IUser = {
     id: string; // User's unique identifier
-    name: string; // Full name of the user
+    first_name: string; // First name
+    last_name: string; // Last name
     username: string; // Username
     email: string; // Email address
-    imageUrl: string; // Profile picture URL
+    pfp: string; // Profile picture URL
     bio: string; // Bio of the user
+    isPrivate: boolean; // Privacy setting
+    isVerified: boolean; // Verification status
+    isAdministrator: boolean; // Admin status
+    followers: string[]; // Array of follower IDs
+    following: string[]; // Array of following IDs
+    likedPosts: {
+        recipes: string[]; // Array of liked recipe IDs
+        posts: string[]; // Array of liked post IDs
+    };
+    posts: {
+        recipes: string[]; // Array of uploaded recipe IDs
+        posts: string[]; // Array of uploaded post IDs
+    };
+    myFridge: {
+        ingredientId: string | null; // Ingredient ID
+        unit: string; // Unit
+        qty: number; // Quantity
+    }[];
+    pfpid: string; // Profile picture ID
 };
 
 // New User Interface
 export interface INewUser {
     email: string; // Required email address
     password: string; // Password
-    name?: string; // Optional full name
-    username?: string; // Optional username
+    first_name: string; // Optional full name
+    last_name: string; // Optional full name
+    username: string; // Optional username
 }
 
 // Utility Types for General Reusability

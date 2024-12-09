@@ -3,6 +3,7 @@ import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
 import { getStorage, FirebaseStorage, ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 import { getAnalytics, Analytics } from "firebase/analytics";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -12,10 +13,11 @@ export const firebaseConfig = {
     apiKey: "AIzaSyBY--Z99TQjGSghASbQZm_5XWXldlcRkN4",
     authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
     projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: "myfridgewebsite.firebasestorage.app",
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: "189008771962",
     appId: "1:189008771962:web:ee68711463b382faa674c3",
     measurementId: "G-LYQ51JVVH9"
+
 };
 
 // Initialize Firebase
@@ -28,6 +30,15 @@ export const analytics: Analytics = getAnalytics(firebaseApp);
 export const auth: Auth = getAuth(firebaseApp);            // Authentication
 export const database: Firestore = getFirestore(firebaseApp);  // Firestore Database
 export const storage: FirebaseStorage = getStorage();
+
+
+/*firebaseConfig.collections = {
+    userCollection: collection(database, "User"),
+    postsCollection: collection(database, "Posts"),
+    recipeCollection: collection(database, "Recipe"),
+    ingredientsCollection: collection(database, "Ingredients"),
+    bookmarksCollection: collection(database, "Bookmarks"),
+};*/
 
 // Custom avatars service for upload and download
 export const avatars = {

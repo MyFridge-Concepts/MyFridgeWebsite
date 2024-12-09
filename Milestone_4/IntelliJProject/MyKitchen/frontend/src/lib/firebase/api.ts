@@ -1,52 +1,137 @@
-import { createUserWithEmailAndPassword, UserCredential, updateProfile } from "firebase/auth";
-import {  collection, addDoc, DocumentReference } from "firebase/firestore";
+import {
+    browserLocalPersistence,
+    createUserWithEmailAndPassword, onAuthStateChanged,
+    setPersistence,
+    signInWithEmailAndPassword, User,
+    UserCredential
+} from "firebase/auth";
+import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { INewUser } from "@/types";
-import {auth, database} from "@/lib/firebase/config.ts";
+import { auth, avatars, database } from "@/lib/firebase/config.ts";
+import {Link, useNavigate} from "react-router-dom";
 
+type ExpandedUser = {
+    id: string;
+    first_name: string;
+    last_name: string;
+    username: string;
+    email: string;
+    pfp: string;
+    bio: string;
+    isPrivate: boolean;
+    isVerified: boolean;
+    isAdministrator: boolean;
+    followers: string[];
+    following: string[];
+    likedPosts: { recipes: string[]; posts: string[] };
+    posts: { recipes: string[]; posts: string[] };
+    myFridge: { ingredientId: string | null; unit: string; qty: number }[];
+    pfpid: string;
+};
 
-// Function to create a new user account and add to Firestore
-export async function createUserAccount(user: INewUser): Promise<UserCredential | Error> {
-    // Firebase Authentication
-    // Firebase Firestore
-
+// Create a new user and save details in Firestore
+export const createUserAccount = async (userData: any) => {
+    const { email, password, first_name, last_name, username } = userData;
     try {
-        // Create the user with email and password
-        const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
-        await updateProfile(userCredential.user, {
-            displayName: user.name
+        // Create user in Firebase Auth
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
+        // Save additional user info in Firestore
+        const userDocRef = doc(database, "User", user.uid);
+        await setDoc(userDocRef, {
+            id: user.uid,
+            email,
+            first_name,
+            last_name,
+            username,
+            bio: "",
+            pfp: "",
+            isPrivate: false,
+            isVerified: false,
+            isAdministrator: false,
+            followers: [],
+            following: [],
+            likedPosts: { recipes: [], posts: [] },
+            posts: { recipes: [], posts: [] },
+            myFridge: [{ ingredientId: null, unit: "", qty: 0 }],
         });
 
-        // Step 3: Add user data to Firestore collection
-        const userData = {
-            name : user.name,               // Full name
-            username: user.username ,       // Username
-            email: user.email,              // Email address
-            profilePic: "",                 // Placeholder for profile picture
-            bio: "",                        // Default empty bio
-            isPrivate: false,               // Default privacy setting
-            isVerified: false,              // Default verification status
-            isAdministrator: false,         // Default admin status
-            followers: [],                  // Empty followers array
-            following: [],                  // Empty following array
-            favoriteRecipes: [],            // Empty favorite recipes array
-            uploadedRecipes: [],            // Empty uploaded recipes array
-            myFridge: []                  // Empty fridge data
+        return user;
+    } catch (error) {
+        console.error("Error creating user:", error);
+        throw error;
+    }
+};
+
+
+// Sign in user
+export const signInAccount = async ({ email, password }: { email: string; password: string }) => {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        return userCredential.user;
+    } catch (error) {
+        console.error("Error signing in:", error);
+        throw error;
+    }
+};
+
+// Sign out user
+export const signOutAccount = async () => {
+    try {
+        await auth.signOut();
+    } catch (error) {
+        console.error("Error signing out:", error);
+        throw error;
+    }
+};
+
+export async function getCurrentUser(): Promise<ExpandedUser | Error> {
+    try {
+        const currentUser = auth.currentUser;
+        if (!currentUser) throw new Error("No user is currently signed in");
+
+        const userDocSnap = await getDoc(doc(database, "User", currentUser.uid));
+        if (!userDocSnap.exists()) throw new Error("User document not found in Firestore");
+
+        const userData = userDocSnap.data();
+        return {
+            id: currentUser.uid, first_name: userData.first_name || "", last_name: userData.last_name || "",
+            username: userData.username || "", email: userData.email || "", pfp: userData.pfp || "", bio: userData.bio || "",
+            isPrivate: userData.isPrivate ?? false, isVerified: userData.isVerified ?? false, isAdministrator: userData.isAdministrator ?? false,
+            followers: userData.followers || [], following: userData.following || [], likedPosts: userData.likedPosts || { recipes: [], posts: [] },
+            posts: userData.posts || { recipes: [], posts: [] }, myFridge: userData.myFridge || [], pfpid: userData.pfpid || ""
         };
-
-        // Add the user document to Firestore
-        const userRef: DocumentReference = await addDoc(collection(database, "User"), userData);
-
-        console.log(`User document created with ID: ${userRef.id}`);
-
-        // Return the created user credential
-        return userCredential;
     } catch (error: unknown) {
-        // Type guard to safely handle the error
-        if (error instanceof Error) {
-            console.error("Error creating user or adding to Firestore:", error.message);
-            return new Error(error.message);
-        }
-        return new Error("An unknown error occurred");
+        return error instanceof Error ? new Error(error.message) : new Error("An unknown error occurred");
     }
 }
+
+// Check if a user is authenticated and retrieve their Firestore document
+export const checkAuthUser = async (): Promise<any | null> => {
+    return new Promise((resolve, reject) => {
+        onAuthStateChanged(auth, async (firebaseUser: User | null) => {
+            if (firebaseUser) {
+                try {
+                    // Fetch user document from Firestore
+                    const userDocRef = doc(database, "User", firebaseUser.uid);
+                    const userDocSnap = await getDoc(userDocRef);
+
+                    if (userDocSnap.exists()) {
+                        const userData = userDocSnap.data();
+                        resolve({ id: firebaseUser.uid, ...userData });
+                    } else {
+                        console.error("User document not found");
+                        resolve(null);
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                    reject(error);
+                }
+            } else {
+                // No user is signed in
+                resolve(null);
+            }
+        });
+    });
+};
