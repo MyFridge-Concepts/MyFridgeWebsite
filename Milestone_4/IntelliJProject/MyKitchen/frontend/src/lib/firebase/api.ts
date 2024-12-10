@@ -6,28 +6,11 @@ import {
     UserCredential
 } from "firebase/auth";
 import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
-import { INewUser } from "@/types";
+import {ExpandedUser, IUser} from "@/types";
 import { auth, avatars, database } from "@/lib/firebase/config.ts";
 import {Link, useNavigate} from "react-router-dom";
 
-type ExpandedUser = {
-    id: string;
-    first_name: string;
-    last_name: string;
-    username: string;
-    email: string;
-    pfp: string;
-    bio: string;
-    isPrivate: boolean;
-    isVerified: boolean;
-    isAdministrator: boolean;
-    followers: string[];
-    following: string[];
-    likedPosts: { recipes: string[]; posts: string[] };
-    posts: { recipes: string[]; posts: string[] };
-    myFridge: { ingredientId: string | null; unit: string; qty: number }[];
-    pfpid: string;
-};
+
 
 // Create a new user and save details in Firestore
 export const createUserAccount = async (userData: any) => {
@@ -86,7 +69,7 @@ export const signOutAccount = async () => {
     }
 };
 
-export async function getCurrentUser(): Promise<ExpandedUser | Error> {
+export async function getCurrentUser(): Promise<IUser| Error> {
     try {
         const currentUser = auth.currentUser;
         if (!currentUser) throw new Error("No user is currently signed in");
@@ -108,7 +91,7 @@ export async function getCurrentUser(): Promise<ExpandedUser | Error> {
 }
 
 // Check if a user is authenticated and retrieve their Firestore document
-export const checkAuthUser = async (): Promise<any | null> => {
+export const checkAuthUser = async (): Promise<any > => {
     return new Promise((resolve, reject) => {
         onAuthStateChanged(auth, async (firebaseUser: User | null) => {
             if (firebaseUser) {

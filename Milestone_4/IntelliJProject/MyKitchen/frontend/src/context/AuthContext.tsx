@@ -1,11 +1,16 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import { IContextType, IUser } from "@/types";
+import {AuthContextType, IUser} from "@/types";
 import { getCurrentUser } from "@/lib/firebase/api";
 import { useNavigate } from "react-router-dom";
 import {auth, database} from "@/lib/firebase/config";
-import { onAuthStateChanged, User } from "firebase/auth";
+import { onAuthStateChanged,  browserLocalPersistence,
+    createUserWithEmailAndPassword,
+    setPersistence,
+    signInWithEmailAndPassword,
+    } from "firebase/auth";
 import {doc, getDoc} from "firebase/firestore";
 import { checkAuthUser as fetchAuthUser } from "@/lib/firebase/api";
+import { addDoc, collection, setDoc } from "firebase/firestore";
 
 
 // Initial user state
@@ -28,16 +33,18 @@ export const INITIAL_USER: IUser = {
     pfpid: "",
 };
 
+const INITIAL_STATE = {
+    user: INITIAL_USER,
+    isLoading: false,
+    isAuthenticated: false,
+    setUser: () => {},
+    setIsAuthenticated: () => {},
+    checkAuthUser: async () => false as boolean,
+};
 
-// Define the types for the context
-interface AuthContextType {
-    user: any | null;
-    isAuthenticated: boolean;
-    isLoading: boolean;
-    checkAuthUser: () => Promise<boolean>;
-}
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+
+export const AuthContext = createContext<AuthContextType>(INITIAL_STATE);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<any | null>(null);
