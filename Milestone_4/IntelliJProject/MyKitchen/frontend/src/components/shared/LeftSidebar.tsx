@@ -6,6 +6,7 @@ import {useEffect} from "react";
 import {useUserContext} from "@/context/AuthContext.tsx";
 import {getCurrentUser} from "@/lib/firebase/api.ts";
 
+
 const LeftSidebar = () => {
     const {mutate: signOut, isSuccess} = useSignOutAccount();
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ const LeftSidebar = () => {
         if(isSuccess) navigate(0);
     }, [isSuccess])
 
-
+    console.log("User object:", user);
 
     return (
 
@@ -28,6 +29,7 @@ const LeftSidebar = () => {
                 <img src="/assets/images/logo.svg" alt="logo"
                      width={170} height={36}/>
             </Link>
+
 
             <Link to={`/profile/${user.id}`} className={"flex gap-3 items-center"}>
 <img src={user.pfp || "/assets/images/profile-placeholder.svg"}
@@ -45,6 +47,8 @@ const LeftSidebar = () => {
     </p>
 </div>
             </Link>
+
+
 
 
         </div>

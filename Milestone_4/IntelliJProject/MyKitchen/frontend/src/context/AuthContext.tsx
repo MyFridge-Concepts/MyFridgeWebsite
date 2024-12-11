@@ -47,7 +47,8 @@ const INITIAL_STATE = {
 export const AuthContext = createContext<AuthContextType>(INITIAL_STATE);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<any | null>(null);
+    const [user, setUser] = useState(null);
+
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     // Function to check and update the authentication state

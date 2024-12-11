@@ -15,6 +15,13 @@ const Topbar = () => {
         if(isSuccess) navigate(0);
         }, [isSuccess])
 
+    console.log("User object:", user);
+
+
+    if (!user) {
+        return <div>Loading...</div>;
+    }
+
 
 
 
