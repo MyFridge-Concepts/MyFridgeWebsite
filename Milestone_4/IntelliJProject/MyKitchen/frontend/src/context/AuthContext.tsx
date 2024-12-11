@@ -47,7 +47,7 @@ const INITIAL_STATE = {
 export const AuthContext = createContext<AuthContextType>(INITIAL_STATE);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(INITIAL_STATE);
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 setUser(currentUser);
                 return true;
             } else {
-                setUser(null);
+                setUser(INITIAL_STATE);
                 return false;
             }
         } catch (error) {
