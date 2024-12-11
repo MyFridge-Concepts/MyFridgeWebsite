@@ -1,7 +1,6 @@
 package edu.famu.mykitchen.model;
 
 import com.google.cloud.Timestamp;
-import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.firebase.database.annotations.Nullable;
 import edu.famu.mykitchen.util.PersonalInfo;
 import lombok.Data;

@@ -1,21 +1,14 @@
 package edu.famu.mykitchen.model;
 
-import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.Firestore;
-import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.annotations.Nullable;
 import edu.famu.mykitchen.util.PersonalInfo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
 
 
 @Data
