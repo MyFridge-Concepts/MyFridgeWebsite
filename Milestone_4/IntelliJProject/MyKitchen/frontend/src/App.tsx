@@ -1,7 +1,18 @@
 import { Routes, Route } from 'react-router-dom';
 import './globals.css';
 import  SigninForm  from './_auth/forms/SigninForm';
-import { Home, } from './_root/pages';
+import {
+    AllUsers,
+    CreatePost,
+    EditPost,
+    Explore,
+    Home,
+    LikedPosts,
+    PostDetails,
+    Profile,
+    Saved,
+    UpdateProfile,
+} from './_root/pages';
 import SignupForm from './_auth/forms/SignupForm';
 import AuthLayout from './_auth/AuthLayout';
 import RootLayout from './_root/RootLayout';
@@ -30,6 +41,7 @@ const App = () => {
             <Route path={"/post/:id"} element={<PostDetails />} />
             <Route path={"/profile/:id"} element={<Profile />} />
             <Route path={"/update-profile/:id"} element={<UpdateProfile />} />
+            {/*<Route path={"/liked-posts"} element={<LikedPosts />} />*/}
 
 
 
