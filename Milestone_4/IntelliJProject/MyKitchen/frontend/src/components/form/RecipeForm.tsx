@@ -17,26 +17,80 @@ import {
 import { Input } from "@/components/ui/input"
 import {Textarea} from "@/components/ui/textarea.tsx";
 import FileUploader from "@/components/shared/FileUploader.tsx";
+import { Checkbox } from "@/components/ui/checkbox"
+import {RecipeValidation} from "@/lib/validation";
+import {useCreateRecipe} from "@/lib/react-query/queriesAndMutations.ts";
+
+type SliderProps = React.ComponentProps<typeof Slider>
+
+/*const items =
+    [/!* getAllIngredients()*!/
+    {
+        id: "recents",
+        label: "Recents",
+    },
+    {
+        id: "home",
+        label: "Home",
+    },
+    {
+        id: "applications",
+        label: "Applications",
+    },
+    {
+        id: "desktop",
+        label: "Desktop",
+    },
+    {
+        id: "downloads",
+        label: "Downloads",
+    },
+    {
+        id: "documents",
+        label: "Documents",
+    },
+]*/
+
+type RecipeFormProps = {
+    recipe?: {
+        id?: string;
+        difficulty: number;
+        dish: string;
+        description: string;
+        instructions: string;
+        cookTime: number;
+        prepTime: number;
+        serving: number;
+        imageUrl: string;
+        tags: string[];
+
+    }
+}
 
 
+const RecipeForm = ({recipe}: RecipeFormProps) => {
+    const {mutateAsync: createRecipe, isPending: isLoadingCreate} = useCreateRecipe();
 
-const formSchema = z.object({
-    username: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
-    }),
-})
 
-const RecipeForm = () => {
     // 1. Define your form.
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof RecipeValidation>>({
+        resolver: zodResolver(RecipeValidation),
         defaultValues: {
-            username: "",
-        },
+            difficulty: recipe? recipe?.difficulty : 1,
+            dish: recipe? recipe?.dish : "",
+            description: recipe? recipe?.description :"",
+            instructions: recipe? recipe?.instructions : "",
+            cookTime: recipe? recipe?.cookTime : 0,
+            prepTime: recipe? recipe?.prepTime : 0,
+            serving: recipe? recipe?.serving : 0,
+            file: [],
+            tags: recipe? recipe?.tags.join(',') : '',
+
+                    },
     })
 
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(values: z.infer<typeof RecipeValidation>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         console.log(values)
@@ -47,15 +101,14 @@ const RecipeForm = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-9 w-full max-w-5xl">
                 <FormField
                     control={form.control}
-                    name="description"
-                    render={({ field }) => (
+                    name="dish"
+                    render={({field}) => (
                         <FormItem>
-                            <FormLabel className={"shad-form-label"}>Recipe Description</FormLabel>
+                            <FormLabel>Dish Name</FormLabel>
                             <FormControl>
-                                <Textarea placeholder="Put a recipe Description" {...field} className={"shad-textarea custom-scrollbar"} />
+                                <Input type="text" className="shad-input" {...field} />
                             </FormControl>
-
-                            <FormMessage />
+                            <FormMessage/>
                         </FormItem>
                     )}
                 />
@@ -94,12 +147,112 @@ const RecipeForm = () => {
 
                 <FormField
                     control={form.control}
-                    name="difficulty"
-                    render={({ field }) => (
+                    name="cookTime"
+                    render={({field}) => (
                         <FormItem>
-                            <FormLabel className={"shad-form-label"}>Difficulty</FormLabel>
+                            <FormLabel>Cook Time in minutes</FormLabel>
                             <FormControl>
-                                <Slider defaultValue={[1]} max={100} step={1} />
+                                <Input type="number" placeholder="Enter the cook time in minutes" className="shad-input" {...field} />
+                            </FormControl>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="prepTime"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Prep Time in minutes</FormLabel>
+                            <FormControl>
+                                <Input type="number" placeholder="Enter the prep time in minutes" className="shad-input" {...field} />
+                            </FormControl>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="serving"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Serving Size - serves _ people</FormLabel>
+                            <FormControl>
+                                <Input type="number" placeholder="Enter the average serving size" className="shad-input" {...field} />
+                            </FormControl>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+
+
+
+               {/* <FormField
+                    control={form.control}
+                    name="ingredients"
+                    render={() => (
+                        <FormItem>
+                            <div className="mb-4">
+                                <FormLabel className="text-base">Ingredients</FormLabel>
+                                <FormDescription>
+                                    Select the ingredients in your recipe (these act as tags).
+                                </FormDescription>
+                            </div>
+                            {items.map((item) => (
+                                <FormField
+                                    key={item.id}
+                                    control={form.control}
+                                    name="items"
+                                    render={({ field }) => {
+                                        return (
+                                            <FormItem
+                                                key={item.id}
+                                                className="flex flex-row items-start space-x-3 space-y-0"
+                                            >
+                                                <FormControl>
+                                                    <Checkbox
+                                                        checked={field.value?.includes(item.id)}
+                                                        onCheckedChange={(checked) => {
+                                                            return checked
+                                                                ? field.onChange([...field.value, item.id])
+                                                                : field.onChange(
+                                                                    field.value?.filter(
+                                                                        (value) => value !== item.id
+                                                                    )
+                                                                )
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                                <FormLabel className="font-normal">
+                                                    {item.label}
+                                                </FormLabel>
+                                            </FormItem>
+                                        )
+                                    }}
+                                />
+                            ))}
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />*/}
+
+                <FormField
+                    control={form.control}
+                    name="difficulty"
+                    render={({ field:{ value, onChange } }) => (
+                        <FormItem>
+                            <FormLabel className={"shad-form-label"}>Difficulty - {value}</FormLabel>
+                            <FormControl>
+                                <Slider
+                                    min={1}
+                                    max={5}
+                                    step={1}
+                                    defaultValue={[value]}
+                                    onValueChange={onChange}
+                                    className={"accent-off-white"}
+                                />
 
                             </FormControl>
 
@@ -115,9 +268,12 @@ const RecipeForm = () => {
                     name="file"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className={"shad-form-label"}>Add Photos Of Your Dish</FormLabel>
+                            <FormLabel className={"shad-form-label"}>Add Photos or Videos Of Your Dish</FormLabel>
                             <FormControl>
-                                <FileUploader />
+                                <FileUploader
+                                fieldChange={field.onChange}
+                                mediaUrl={recipe?.imageUrl}
+                                />
 
 
 
@@ -128,8 +284,25 @@ const RecipeForm = () => {
                     )}
                 />
 
+                <FormField
+                    control={form.control}
+                    name="tags"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Ingredient Tags (seperated by comma ",")</FormLabel>
+                            <FormControl>
+                                <Input type="number" placeholder="Carrot, Cake, Meat" className="shad-input" {...field} />
+                            </FormControl>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+<div className={"flex gap-4 items-center justify-end"}>
+    <Button type="submit" className={"shad-button_primary whitespace-nowrap"}>Submit</Button>
+    <Button type={"button"} className={"shad-button_dark_4"}>Cancel</Button>
+</div>
 
-                <Button type="submit">Submit</Button>
+
             </form>
         </Form>
     )

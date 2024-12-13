@@ -1,4 +1,3 @@
-import {User} from "firebase/auth";
 
 export type ExpandedUser = {
     id: string;
@@ -52,11 +51,11 @@ export type IUpdateUser = {
     following: string[]; // Array of following IDs
     likedPosts: {
         recipes: string[]; // Array of liked recipe IDs
-        posts: string[]; // Array of liked post IDs
+        posts: string[]; // Array of liked recipe IDs
     };
     posts: {
         recipes: string[]; // Array of uploaded recipe IDs
-        posts: string[]; // Array of uploaded post IDs
+        posts: string[]; // Array of uploaded recipe IDs
     };
     myFridge: {
         ingredientId: string | null; // Ingredient ID
@@ -68,23 +67,36 @@ export type IUpdateUser = {
 };
 
 // New Post Type
-export type INewPost = {
+export type INewRecipe = {
     userId: string;
-    caption: string;
     file: File[]; // Array of uploaded files
-    location?: string; // Optional location
-    tags?: string[]; // Tags represented as an array of strings
+    difficulty: number;
+    dish: string;
+    description: string;
+    instructions: string;
+    cookTime: number;
+    prepTime: number;
+    serving: number;
+    imageUrl: string;
+    tags: string;
+    recipeId: string;
 };
 
 // Update Post Type
-export type IUpdatePost = {
+export type IUpdateRecipe = {
     postId: string;
-    caption: string;
     imageId: string;
     imageUrl: URL | string; // URL with a string fallback
     file: File[]; // Array of uploaded files
-    location?: string;
-    tags?: string[];
+    difficulty: number;
+    dish: string;
+    description: string;
+    instructions: string;
+    cookTime: number;
+    prepTime: number;
+    serving: number;
+    tags: string;
+    recipeId: string;
 };
 
 // User Type
@@ -103,11 +115,11 @@ export type IUser = {
     following: string[]; // Array of following IDs
     likedPosts: {
         recipes: string[]; // Array of liked recipe IDs
-        posts: string[]; // Array of liked post IDs
+        posts: string[]; // Array of liked recipe IDs
     };
     posts: {
         recipes: string[]; // Array of uploaded recipe IDs
-        posts: string[]; // Array of uploaded post IDs
+        posts: string[]; // Array of uploaded recipe IDs
     };
     myFridge: {
         ingredientId: string | null; // Ingredient ID
@@ -135,7 +147,7 @@ export type IFileUpload = {
     metadata?: Record<string, any>;
 };
 
-export type IPostMetadata = {
+export type IRecipeMetadata = {
     location?: string;
     tags?: string[];
 };

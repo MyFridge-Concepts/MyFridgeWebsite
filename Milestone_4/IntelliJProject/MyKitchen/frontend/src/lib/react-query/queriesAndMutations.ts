@@ -4,8 +4,8 @@ useMutation,
 useQueryClient,
     useInfiniteQuery
 } from '@tanstack/react-query'
-import {createUserAccount, signInAccount, signOutAccount} from "@/lib/firebase/api.ts";
-import {INewUser} from "@/types";
+import {createRecipe, createUserAccount, signInAccount, signOutAccount} from "@/lib/firebase/api.ts";
+import {INewRecipe, INewUser} from "@/types";
 
 
 
@@ -28,5 +28,12 @@ export const useSignInAccount = () => {
 export const useSignOutAccount = () => {
     return useMutation({
         mutationFn: signOutAccount,
+    });
+};
+
+export const useCreateRecipe = () => {
+    return useMutation({
+        mutationFn: (recipe: INewRecipe) => createRecipe(recipe),
+
     });
 };
