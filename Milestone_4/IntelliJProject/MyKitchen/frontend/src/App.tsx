@@ -3,12 +3,12 @@ import './globals.css';
 import  SigninForm  from './_auth/forms/SigninForm';
 import {
     AllUsers,
-    CreatePost,
-    EditPost,
+    CreateRecipe,
+    EditRecipe,
     Explore,
     Home,
-    LikedPosts,
-    PostDetails,
+    LikedRecipes,
+    RecipeDetails,
     Profile,
     Saved,
     UpdateProfile,
@@ -36,12 +36,12 @@ const App = () => {
             <Route path={"/explore"} element={<Explore />} />
             <Route path={"/saved"}   element={<Saved />} />
             <Route path={"/all-users"} element={<AllUsers />} />
-            <Route path={"/create-recipe"} element={<CreatePost />} />
-            <Route path={"/update-recipe/:id"} element={<EditPost />} />
-            <Route path={"/recipe/:id"} element={<PostDetails />} />
+            <Route path={"/create-recipe"} element={<CreateRecipe />} />
+            <Route path={"/update-recipe/:id"} element={<EditRecipe />} />
+            <Route path={"/recipe/:id"} element={<RecipeDetails />} />
             <Route path={"/profile/:id"} element={<Profile />} />
             <Route path={"/update-profile/:id"} element={<UpdateProfile />} />
-            {/*<Route path={"/liked-posts"} element={<LikedPosts />} />*/}
+            {/*<Route path={"/liked-posts"} element={<LikedRecipes />} />*/}
 
 
 

@@ -14,14 +14,7 @@ export const SigninValidation = z.object({
 })
 
 export const RecipeValidation = z.object({
-        difficulty: z.number()
-            .min(1, {
-                message: "Difficulty must be at least 1.",
-            })
-            .max(5, {
-                message: "Difficulty must be at most 5.",
-            })
-            .default(1),
+
         /*items: z.array(z.string()).refine((value) => value.some((item) => item), {
             message: "You have to select at least one ingredient.",
         }),*/
@@ -42,24 +35,39 @@ export const RecipeValidation = z.object({
         })
             .min(2,{message:'Too short'})
             .max(2200, {message: 'Too long'}),
-        cookTime: z.number()
+        cookTime: z.string()
+            .nonempty({
+                message:"Required Field"
+                })
             .min(1, {
             message: "Cook time must be at least 1.",
-        })
-            .default(1),
-        prepTime: z.number()
+        }),
+        prepTime: z.string()
+            .nonempty({
+                message:"Required Field"
+                })
             .min(1, {
                 message: "Prep time must be at least 1.",
-            })
-            .default(1),
-        serving: z.number()
+            }),
+        serving: z.string()
+            .nonempty({
+                message:"Required Field"
+                })
             .min(1, {
                 message: "Serving size must be at least 1.",
-            })
-            .default(1),
+            }),
         tags: z.string()
             .nonempty({
-            message: "Tags are required.",
-        }),
+                message: 'Tags are required.'
+            }),
     file: z.custom<File[]>()
 })
+
+export const ProfileValidation = z.object({
+    file: z.custom<File[]>(),
+    last_name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+    first_name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+    username: z.string().min(2, { message: "Name must be at least 2 characters." }),
+    email: z.string().email(),
+    bio: z.string(),
+});

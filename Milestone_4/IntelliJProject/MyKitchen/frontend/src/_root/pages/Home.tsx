@@ -1,8 +1,37 @@
+import { Loader } from "lucide-react";
+import { useGetRecentRecipes } from "@/lib/react-query/queriesAndMutations"; // Replace with your actual query
+import RecipeCard from "@/components/shared/RecipeCard";
+import { IRecipeMetadata } from "@/types";
 
 const Home = () => {
-  return (
-    <div>Home</div>
-  )
-}
+  const { data: recipes, isPending: isRecipeLoading, isError: isErrorRecipes } = useGetRecentRecipes(); // Use your custom hook
 
-export default Home
+  return (
+      <div className="flex flex-1">
+        <div className="home-container">
+          <div className="home-posts">
+            <h2 className="h3-bold md:h2-bold text-left w-full">My Recipes</h2>
+
+            {/* Loading State */}
+            {isRecipeLoading && !recipes ? (
+                <div className="flex justify-center items-center">
+                  <Loader className="animate-spin" />
+                </div>
+            ) : isErrorRecipes ? (
+                <p className="text-red-500 text-center">Error fetching recipes. Please try again.</p>
+            ) : (
+                <ul className="flex flex-col flex-1 gap-9 w-full">
+                  {recipes?.map((recipe: IRecipeMetadata) => (
+                      <li key={recipe.id}>
+                        <RecipeCard recipe={recipe} key={recipe.dish} />
+                      </li>
+                  ))}
+                </ul>
+            )}
+          </div>
+        </div>
+      </div>
+  );
+};
+
+export default Home;

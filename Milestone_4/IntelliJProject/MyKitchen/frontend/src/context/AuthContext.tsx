@@ -3,11 +3,12 @@ import {AuthContextType, IUser} from "@/types";
 import { getCurrentUser } from "@/lib/firebase/api";
 import { useNavigate } from "react-router-dom";
 import {auth, database} from "@/lib/firebase/config";
-import { onAuthStateChanged,  browserLocalPersistence,
+import {
+    onAuthStateChanged, browserLocalPersistence,
     createUserWithEmailAndPassword,
     setPersistence,
-    signInWithEmailAndPassword,
-    } from "firebase/auth";
+    signInWithEmailAndPassword, User,
+} from "firebase/auth";
 import {doc, getDoc} from "firebase/firestore";
 import { checkAuthUser as fetchAuthUser } from "@/lib/firebase/api";
 import { addDoc, collection, setDoc } from "firebase/firestore";
@@ -27,9 +28,9 @@ export const INITIAL_USER: IUser = {
     isAdministrator: false,
     followers: [],
     following: [],
-    likedPosts: { recipes: [], posts: [] },
-    posts: { recipes: [], posts: [] },
-    myFridge: [{ ingredientId: null, unit: "", qty: 0 }],
+    likedRecipes:  [],
+    recipes: [],
+    myFridge: [{ ingredientId: null  }],
     pfpid: "",
 };
 
@@ -86,6 +87,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         return () => unsubscribe(); // Clean up listener
     }, []);
+
+
 
 
     return (
